@@ -1,0 +1,355 @@
+/* style.css - Đã hợp nhất toàn bộ CSS */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&display=swap');
+/* style.css - (BẮT ĐẦU PHẦN DARK MODE) */
+
+/* Định nghĩa màu tối (Dark Mode Variables) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #ff6f00; /* Cam đậm cho tiêu đề (nổi bật hơn) */
+        --secondary-color: #ff8800; /* Cam nhạt cho quote */
+        --bg-light: #121212; /* Nền tối chính */
+        --bg-alt-3: #1e1e1e; /* Nền thay thế Index 3 (light section) */
+        --bg-alt-4: #222222; /* Nền thay thế Index 4 (light section) */
+        --text-color: #e0e0e0; /* Chữ sáng */
+        --footer-bg: #000;
+    }
+
+    /* Đổi màu nền chính cho Body */
+    body {
+        background: var(--bg-light) !important;
+        color: var(--text-color) !important;
+    }
+
+    /* Đổi màu tiêu đề h2 */
+    .section h2 {
+        color: var(--primary-color) !important;
+    }
+    
+    /* Đổi màu light section */
+    .section.light-3 {
+        background: var(--bg-alt-3) !important;
+        border-top: 2px solid #333 !important;
+        border-bottom: 2px solid #333 !important;
+    }
+    .section.light-4 {
+        background: var(--bg-alt-4) !important;
+        border-top: 2px solid #333 !important;
+        border-bottom: 2px solid #333 !important;
+    }
+
+    /* Đổi màu Blockquote */
+    blockquote {
+        color: #b0b0b0 !important;
+        border-left: 5px solid var(--secondary-color) !important;
+    }
+    
+    /* Đổi màu nút Chuyển trang (để màu đỏ nổi bật) */
+    .btn-next {
+        background: linear-gradient(90deg, #ff6f00, #ff8800) !important;
+        box-shadow: 0 0 12px rgba(255, 136, 0, 0.6) !important;
+    }
+    .btn-next:hover {
+        background: linear-gradient(90deg, #ff8800, #ff6f00) !important;
+        box-shadow: 0 0 20px rgba(255, 136, 0, 0.8) !important;
+    }
+
+    /* Điều chỉnh nền gradient riêng của Body Index 3 và Index 4 */
+    .body-index3 {
+        background: linear-gradient(to bottom, #121212, #333) !important;
+    }
+    .body-index4 {
+        background: linear-gradient(to bottom, #121212, #444) !important;
+    }
+}
+/* Định nghĩa CSS Variables */
+:root {
+  --primary-color: #8b0000; /* Đỏ đậm cho tiêu đề */
+  --secondary-color: #b22222; /* Đỏ nhạt cho border/quote */
+  --accent-color-light: #fdd835; /* Vàng nhạt (Nút) */
+  --accent-color-dark: #ff6f00; /* Cam đậm (Nút) */
+  --bg-light: #fdfcfb; /* Nền sáng (Chủ đạo) */
+  --bg-alt-3: #f8f5f0; /* Nền thay thế Index 3 (Tương đương light section) */
+  --bg-alt-4: #fff7ef; /* Nền thay thế Index 4 (Tương đương light section) */
+  --text-color: #222;
+  --footer-bg: #333; /* Đã thống nhất màu chân trang */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+  /* Dùng biến chung, các trang con sẽ tự set background nếu khác */
+  background: var(--bg-light); 
+  color: var(--text-color);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* --- BACKGROUND RIÊNG CỦA CÁC TRANG --- */
+/* Thêm class riêng cho body nếu muốn background khác nhau */
+.body-index3 {
+    background: linear-gradient(to bottom, var(--bg-light), #e2d1c3);
+}
+.body-index4 {
+    background: linear-gradient(to bottom, #fffaf5, #ffe9d2);
+}
+
+
+/* --- HERO (index.html) --- */
+.hero {
+  position: relative;
+  background: url('bac1.png') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+/* ... (phần còn lại của .hero giữ nguyên) ... */
+.hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 2s ease;
+}
+.hero h1 {
+  font-size: 3em;
+  letter-spacing: 2px;
+}
+.hero p {
+  margin-top: 10px;
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+
+/* --- HEADER & SUB-HERO (index2, index3, index4) --- */
+header {
+    text-align: center;
+    padding: 120px 20px;
+    position: relative;
+    color: white;
+}
+
+/* Base style cho sub-hero */
+.sub-hero {
+  /* Nếu không có ảnh nền, dùng gradient này (index2) */
+  background: linear-gradient(120deg, var(--primary-color), #f57c00); 
+  animation: fadeIn 1s;
+}
+
+/* Class nền ảnh cho Index 3 và Index 4 */
+.header-background-1 {
+    background: url('bac1.png') center/cover no-repeat;
+}
+.header-background-2 {
+    background: url('bac3.png') center/cover no-repeat;
+}
+
+/* Áp dụng background cover cho các header có ảnh */
+header.header-background-1,
+header.header-background-2 {
+    background-size: cover;
+}
+
+/* Overlay chung cho tất cả các Header */
+header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55); /* Lấy 0.55 từ index4.html */
+}
+/* Riêng index3.html bạn dùng 0.5, tôi sẽ dùng 0.55 cho nhất quán */
+header.sub-hero::after {
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+header h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 2.6rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+    animation: fadeInDown 1.2s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    from {opacity: 0; transform: translateY(-30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* --- SECTION & CONTENT --- */
+.section {
+  padding: 80px 10%;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+/* Định nghĩa màu nền cho light section theo từng trang */
+.section.light-3 { /* Cho index3.html */
+  background: var(--bg-alt-3);
+  border-top: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
+}
+.section.light-4 { /* Cho index4.html */
+  background: #fff7ef; /* Lấy màu nền light section từ index4 */
+  border-top: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2em; /* Tăng từ 1.8rem lên 2em cho thống nhất */
+  color: var(--primary-color);
+}
+.body-index4 .section h2 {
+    color: var(--secondary-color); /* H2 màu đỏ nhạt hơn cho index4 */
+}
+
+.section p, .section li {
+  font-size: 1.05rem; 
+  line-height: 1.7;
+  text-align: justify;
+  margin-bottom: 15px; /* Thống nhất margin-bottom */
+}
+
+blockquote {
+    font-style: italic;
+    color: #555;
+    border-left: 5px solid var(--secondary-color);
+    padding-left: 15px;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+/* Image Styles */
+.content-img {
+    width: 100%;
+    max-width: 700px;
+    display: block;
+    margin: 30px auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+.content-img:hover {
+    transform: scale(1.03);
+}
+
+/* Visibility (Dùng cho JS Scroll Reveal) */
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.visible { 
+    animation: fadeIn 1s forwards; 
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Lightbox/Image Overlay Styles */
+.img-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: zoom-out;
+  animation: fadeInOverlay 0.5s;
+}
+.img-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+
+/* --- BUTTONS & ALIGNMENT --- */
+.btn {
+  /* Style cho nút ở index.html */
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background: linear-gradient(90deg, var(--accent-color-light), var(--accent-color-dark));
+  color: #000;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-next {
+  /* Style cho nút chuyển trang */
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(90deg, var(--secondary-color), #ff6347); 
+  color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  margin: 40px 10px 0; /* Điều chỉnh margin */
+  transition: 0.3s;
+  box-shadow: 0 0 12px rgba(255, 99, 71, 0.6);
+}
+
+.btn-next:hover {
+  background: linear-gradient(90deg, #ff6347, var(--secondary-color));
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.8);
+  transform: scale(1.05);
+}
+
+/* Căn giữa nút (Khắc phục lỗi inline style) */
+.center-button {
+    text-align: center;
+}
+.next-section {
+    text-align: center;
+    padding: 20px;
+    display: none; 
+}
+
+
+/* --- FOOTER --- */
+footer {
+  text-align: center;
+  padding: 30px;
+  background: var(--footer-bg);
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    header { padding: 80px 15px; }
+    header h1 { font-size: 2rem; }
+    .section { padding: 50px 5%; }
+    .section h2 { font-size: 1.5rem; }
+    .section p { font-size: 1rem; }
+    .btn-next { padding: 10px 20px; font-size: 0.9rem; margin-top: 20px; }
+}
