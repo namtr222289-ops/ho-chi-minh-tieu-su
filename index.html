@@ -1,19 +1,635 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chủ tịch Hồ Chí Minh - Hành trình vĩ đại</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chủ tịch Hồ Chí Minh - Anh hùng Giải phóng Dân tộc và Danh nhân Văn hóa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Tùy chỉnh Font và CSS chung */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        
+        /* Định nghĩa biến màu */
+        :root {
+            --primary-color: #004d99; /* Stronger Blue (Xanh Hải Quân) */
+            --accent-color: #cc0000; /* National Red (Đỏ Quốc gia) */
+        }
+        
+        /* Cấu hình cơ bản và Tương phản (LIGHT MODE) */
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.4s, color 0.4s;
+            background-color: #f7f9fc; /* Nền rất sáng */
+            color: #1f2937; /* Chữ rất tối */
+        }
+
+        /* Tương phản (DARK MODE) */
+        .dark {
+             /* Chú ý: .dark body không cần thiết nếu ta chỉ dùng .dark trên html element */
+             background-color: #1a1a2e; /* Nền tối sâu */
+             color: #f0f4f8; /* Chữ rất sáng */
+        }
+        
+        /* CẬP NHẬT STYLE CHO THẺ STRONG */
+        strong {
+            font-weight: 900; /* Tăng cường độ đậm lên 900 */
+            color: var(--accent-color); /* Luôn nổi bật với màu Đỏ Quốc gia */
+            transition: all 0.3s ease-in-out;
+            /* Thêm hiệu ứng nhấn mạnh nhẹ trong Light Mode */
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+        }
+        .dark strong {
+            color: #ff9900; /* Màu cam ấm áp, tương phản tốt trên nền tối */
+            /* Hiệu ứng glow nhẹ trên nền tối */
+            text-shadow: 0 0 4px rgba(255, 153, 0, 0.5); 
+        }
+
+        /* Transition cho hiệu ứng chuyển trang */
+        .page-content {
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+            min-height: calc(100vh - 4rem);
+            /* SỬ DỤNG OPACITY VÀ VISIBILITY ĐỂ HIỆU ỨNG FADE MƯỢT HƠN KHI ẨN/HIỆN */
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .page-content.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+        }
+        
+        /* Navbar Active Link */
+        .nav-link.active {
+            color: var(--accent-color) !important;
+            border-bottom: 3px solid var(--accent-color);
+            transform: translateY(1px);
+        }
+        
+        /* Animation cho Card Style */
+        .card-style {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .card-style:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .dark .card-style {
+            box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -2px rgba(255, 255, 255, 0.05);
+        }
+        .dark .card-style:hover {
+            box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Timeline Style */
+        .timeline-container {
+            position: relative;
+            margin-left: 20px; /* Space for the line and dots */
+        }
+        .timeline-container:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px; 
+            background: #d1d5db; /* Light gray line */
+            border-radius: 2px;
+        }
+        .dark .timeline-container:before {
+            background: #374151; /* Dark gray line */
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 30px; /* Space for the dot */
+            margin-bottom: 2rem;
+        }
+        .timeline-item-dot {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 5px solid #f7f9fc; /* Light mode border */
+            transform: translateX(-50%);
+            transition: all 0.3s;
+        }
+        .dark .timeline-item-dot {
+            border-color: #1a1a2e; /* Dark mode border */
+        }
+        /* Fix cho body trong Dark mode để tránh xung đột màu nền */
+        .dark body {
+             background-color: #1a1a2e; 
+             color: #f0f4f8; 
+        }
+    </style>
 </head>
-<body>
-  <header class="hero">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <h1>Chủ tịch Hồ Chí Minh</h1>
-      <p>Biểu tượng vĩ đại của dân tộc Việt Nam và nhân loại tiến bộ</p>
-      <a href="index2.html" class="btn">Bắt đầu hành trình</a>
-    </div>
-  </header>
+<body class="text-base sm:text-lg">
+
+    <header class="fixed top-0 left-0 w-full bg-white dark:bg-[#1f2937] shadow-2xl z-50 transition duration-500">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center h-20">
+            <h1 class="text-xl sm:text-2xl font-black text-[var(--primary-color)] dark:text-blue-400 transition duration-300 cursor-pointer" onclick="window.location.hash='#page-1'">
+                CHỦ TỊCH HỒ CHÍ MINH
+            </h1>
+            
+            <div class="hidden md:flex space-x-6 text-base font-semibold">
+                <a href="#page-1" class="nav-link transition duration-200 ease-in-out pb-2 text-gray-700 dark:text-gray-200 hover:text-[var(--accent-color)]" data-page="page-1">1. Giới thiệu</a>
+                <a href="#page-2" class="nav-link transition duration-200 ease-in-out pb-2 text-gray-700 dark:text-gray-200 hover:text-[var(--accent-color)]" data-page="page-2">2. Tiểu sử</a>
+                <a href="#page-3" class="nav-link transition duration-200 ease-in-out pb-2 text-gray-700 dark:text-gray-200 hover:text-[var(--accent-color)]" data-page="page-3">3. Hoạt động</a>
+                <a href="#page-4" class="nav-link transition duration-200 ease-in-out pb-2 text-gray-700 dark:text-gray-200 hover:text-[var(--accent-color)]" data-page="page-4">4. Quá trình hoạt động</a>
+                <a href="#page-5" class="nav-link transition duration-200 ease-in-out pb-2 text-gray-700 dark:text-gray-200 hover:text-[var(--accent-color)]" data-page="page-5">5. Tư tưởng Đạo đức</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" title="Chuyển giao diện Dark/Light">
+                    <i data-lucide="sun" class="w-5 h-5 theme-icon"></i>
+                </button>
+                
+                <button id="mobile-menu-btn" title="Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-xl border-t border-gray-100 dark:border-gray-700 transition duration-300">
+            <div class="px-4 pt-2 pb-4 space-y-2 flex flex-col font-medium">
+                <a href="#page-1" class="mobile-nav-link nav-link py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300" data-page="page-1">1. Giới thiệu</a>
+                <a href="#page-2" class="mobile-nav-link nav-link py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300" data-page="page-2">2. Tiểu sử của Bác</a>
+                <a href="#page-3" class="mobile-nav-link nav-link py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300" data-page="page-3">3. Các hoạt động cách mạng (Tổng quan)</a>
+                <a href="#page-4" class="mobile-nav-link nav-link py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300" data-page="page-4">4. Quá trình hoạt động (Chi tiết)</a>
+                <a href="#page-5" class="mobile-nav-link nav-link py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300" data-page="page-5">5. Tư tưởng Đạo đức HCM</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative min-h-screen"> <section id="page-1" class="page-content active">
+            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-12 items-center min-h-[70vh]">
+                <div class="lg:col-span-2">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">NGƯỜI KHAI SINH RA ĐẤT NƯỚC VIỆT NAM DÂN CHỦ CỘNG HÒA</h2>
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-gray-900 dark:text-gray-50 mb-6 transition duration-500">
+                        Chủ tịch Hồ Chí Minh<br class="hidden sm:inline"> (1890 – 1969)
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                        Chủ tịch Hồ Chí Minh là <strong>vị lãnh tụ kính yêu</strong> của dân tộc Việt Nam, người đã dành trọn cả cuộc đời để tìm ra con đường cứu nước, giải phóng dân tộc khỏi ách đô hộ của thực dân và đế quốc. Sự nghiệp vĩ đại của Người không chỉ mang lại <strong>độc lập, tự do</strong> cho dân tộc Việt Nam mà còn là nguồn cảm hứng lớn cho các phong trào giải phóng trên toàn thế giới. Người được UNESCO vinh danh là <strong>Danh nhân văn hóa thế giới</strong>.
+                    </p>
+                    
+                    <div class="p-6 rounded-2xl border-l-8 border-[var(--accent-color)] bg-red-50 dark:bg-gray-800 mb-8 shadow-xl">
+                        <blockquote class="text-xl sm:text-2xl italic font-medium text-[var(--accent-color)] dark:text-yellow-500">
+                            "Vì lợi ích mười năm thì phải trồng cây. Vì lợi ích trăm năm thì phải trồng người."
+                        </blockquote>
+                        <cite class="block text-sm text-gray-500 dark:text-gray-400 mt-4">— Hồ Chí Minh</cite>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                        <a href="#page-2" class="page-nav-btn p-4 text-center rounded-xl bg-[var(--primary-color)] text-white hover:bg-blue-700 card-style" data-page="page-2">
+                            <i data-lucide="user" class="w-6 h-6 mx-auto mb-2"></i> Tiểu sử
+                        </a>
+                        <a href="#page-3" class="page-nav-btn p-4 text-center rounded-xl bg-purple-600 text-white hover:bg-purple-700 card-style" data-page="page-3">
+                            <i data-lucide="layers" class="w-6 h-6 mx-auto mb-2"></i> Hoạt động
+                        </a>
+                        <a href="#page-4" class="page-nav-btn p-4 text-center rounded-xl bg-green-600 text-white hover:bg-green-700 card-style" data-page="page-4">
+                            <i data-lucide="calendar-check" class="w-6 h-6 mx-auto mb-2"></i> Quá trình hoạt động
+                        </a>
+                        <a href="#page-5" class="page-nav-btn p-4 text-center rounded-xl bg-yellow-600 text-white hover:bg-yellow-700 card-style" data-page="page-5">
+                            <i data-lucide="lightbulb" class="w-6 h-6 mx-auto mb-2"></i> Tư tưởng đạo đức
+                        </a>
+                        
+                    </div>
+                </div>
+
+                <div class="hidden lg:block lg:col-span-1">
+                    <div class="h-[500px] w-full rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.05] transition duration-700">
+                        <img 
+                            src="BacHo.png" 
+                            alt="Chủ tịch Hồ Chí Minh (Hình ảnh BacHo.png)" 
+                            class="w-full h-full object-cover"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x500/1f2937/f3f4f6?text=Lỗi+tải+ảnh+(BacHo.png)'"
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-2" class="page-content">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--primary-color)] dark:text-gray-100 mb-8 pb-4 border-b border-gray-200 dark:border-gray-700 transition duration-500">2. Tiểu sử: Từ Nguyễn Sinh Cung đến Người Cha Già Dân tộc</h2>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl card-style border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center mb-4">
+                        <i data-lucide="home" class="w-6 h-6 mr-3 text-red-500"></i> Quê hương và Gia đình
+                    </h3>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-3 ml-4">
+                        <li><strong>Tên khai sinh:</strong> Nguyễn Sinh Cung, sau đổi là Nguyễn Tất Thành (thời niên thiếu).</li>
+                        <li><strong>Ngày sinh:</strong> 19 tháng 5 năm 1890.</li>
+                        <li><strong>Quê hương:</strong> Làng Sen (Kim Liên), xã Nam Liên, huyện Nam Đàn, tỉnh Nghệ An. </li>
+                        <li><strong>Thân phụ:</strong> Cụ Phó bảng Nguyễn Sinh Sắc, một nhà Nho yêu nước, có ảnh hưởng lớn đến tư tưởng ban đầu của Người.</li>
+                        <li><strong>Thân mẫu:</strong> Bà Hoàng Thị Loan, người phụ nữ đảm đang, nhân hậu.</li>
+                        <li><strong>Niên thiếu:</strong> Sống trong cảnh đất nước lầm than, sớm chứng kiến nỗi thống khổ của dân tộc và tinh thần đấu tranh của cha, anh.</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl card-style border-l-4 border-blue-500">
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center mb-4">
+                        <i data-lucide="ship" class="w-6 h-6 mr-3 text-blue-500"></i> Ra đi tìm đường cứu nước (1911)
+                    </h3>
+                    <div class="space-y-4 text-gray-600 dark:text-gray-400">
+                        <p>Năm 1911, với tên gọi <strong>Văn Ba</strong>, Người rời bến cảng Sài Gòn trên tàu <strong>Latouche Tréville</strong>. Khác với các nhà yêu nước khác tìm đường cứu nước bằng cách dựa vào nước ngoài hoặc cầu viện, Nguyễn Tất Thành đã chọn một con đường hoàn toàn mới:</p>
+                        <blockquote class="italic p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-l-2 border-gray-400">
+                            "Tôi muốn đi ra nước ngoài, xem xét họ làm ăn thế nào, tôi sẽ trở về giúp đồng bào chúng ta."
+                        </blockquote>
+                        <p>Hành trình 30 năm bôn ba khắp các châu lục (Á, Âu, Phi, Mỹ) là giai đoạn <strong>tự học, tự nghiên cứu</strong> vĩ đại, làm nền tảng cho việc hình thành tư tưởng cách mạng tiên phong của Người.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-10 p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-t-4 border-yellow-500 card-style">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center mb-4">
+                    <i data-lucide="book-open" class="w-6 h-6 mr-3 text-yellow-500"></i> Giai đoạn ở Pháp và Tìm thấy Chủ nghĩa Mác – Lênin
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Sau nhiều năm làm việc và nghiên cứu, Người dừng chân tại Pháp. Năm 1919, với tên <strong>Nguyễn Ái Quốc</strong>, Người gửi "Bản yêu sách của nhân dân An Nam" tới Hội nghị Versailles. Sự kiện này gây tiếng vang lớn, khẳng định tinh thần đấu tranh không khoan nhượng. Bước ngoặt lớn nhất là năm <strong>1920</strong> khi Người đọc "Sơ thảo lần thứ nhất những Luận cương về vấn đề dân tộc và vấn đề thuộc địa" của V.I. Lênin. Người đã thốt lên: "Luận cương của Lênin làm cho tôi rất cảm động, phấn khởi, sáng tỏ, tin tưởng biết bao! <strong>Đây là con đường giải phóng chúng ta!</strong>". Sự kiện này dẫn đến việc Người trở thành người sáng lập Đảng Cộng sản Pháp và chính thức đi theo con đường cách mạng vô sản.
+                </p>
+            </div>
+        </section>
+
+        <section id="page-3" class="page-content">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--primary-color)] dark:text-gray-100 mb-10 pb-4 border-b border-gray-200 dark:border-gray-700 transition duration-500">3. 5 Chặng đường Lớn của Cuộc đời Hoạt động Cách mạng (Tổng quan chi tiết)</h2>
+
+            <div class="space-y-10">
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-red-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="route" class="w-8 h-8 mr-4 text-red-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">1911 - 1920: Thập kỷ Tìm kiếm và Lựa chọn Con đường</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Chuyển từ một người yêu nước theo tinh thần Á Đông sang một <strong>người cộng sản quốc tế</strong>.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Mục tiêu:</strong> Khảo sát thực tiễn đời sống công nhân và tìm hiểu bản chất của chủ nghĩa đế quốc tại các nước phát triển (Pháp, Anh, Mỹ).</li>
+                        <li><strong>Thành tựu chính:</strong> Viết <strong>"Bản yêu sách của nhân dân An Nam"</strong> (1919) gây tiếng vang, và quan trọng nhất là việc <strong>tìm thấy ánh sáng Chủ nghĩa Mác – Lênin</strong> qua "Luận cương về vấn đề dân tộc và vấn đề thuộc địa" (1920).</li>
+                        <li><strong>Bước ngoặt:</strong> Trở thành đảng viên sáng lập Đảng Cộng sản Pháp, đánh dấu sự lựa chọn dứt khoát con đường cách mạng vô sản.</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-yellow-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="users-round" class="w-8 h-8 mr-4 text-yellow-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">1920 - 1930: Thập kỷ Tổ chức và Truyền bá</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Giai đoạn xây dựng nền móng tư tưởng, chính trị và tổ chức cho sự ra đời của một Đảng Cộng sản ở Việt Nam.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Hoạt động trọng tâm:</strong> Tham gia Quốc tế Cộng sản, làm việc tại Liên Xô và Trung Quốc.</li>
+                        <li><strong>Tổ chức nòng cốt:</strong> Sáng lập <strong>Hội Việt Nam Cách mạng Thanh niên</strong> (1925), tổ chức tiền thân quan trọng.</li>
+                        <li><strong>Tác phẩm kinh điển:</strong> Viết <strong>"Đường Kách Mệnh"</strong> (1927), tổng kết kinh nghiệm cách mạng thế giới, xác định rõ ràng phương pháp và lực lượng cách mạng Việt Nam.</li>
+                        <li><strong>Đỉnh cao:</strong> Chủ trì Hội nghị hợp nhất các tổ chức cộng sản, thành lập <strong>Đảng Cộng sản Việt Nam</strong> (3/2/1930).</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-green-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="flag-triangle-right" class="w-8 h-8 mr-4 text-green-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">1930 - 1945: Thập kỷ Dẫn dắt và Tổng Khởi nghĩa</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Trở về Tổ quốc sau 30 năm bôn ba, trực tiếp lãnh đạo cao trào đấu tranh giành độc lập dân tộc.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Trở về:</strong> Về nước tại <strong>Pác Bó</strong> (Cao Bằng, 1941) và chủ trì Hội nghị Trung ương 8, quyết định chuyển hướng chiến lược: đặt nhiệm vụ <strong>giải phóng dân tộc</strong> lên hàng đầu.</li>
+                        <li><strong>Tổ chức lực lượng:</strong> Thành lập <strong>Mặt trận Việt Minh</strong> và các đội du kích vũ trang (tiền thân của Quân đội Nhân dân Việt Nam).</li>
+                        <li><strong>Chiến thắng:</strong> Lãnh đạo thắng lợi <strong>Cách mạng tháng Tám</strong> (1945), giành chính quyền trong cả nước.</li>
+                        <li><strong>Khai sinh:</strong> Đọc <strong>Tuyên ngôn Độc lập</strong> (2/9/1945), khai sinh nước Việt Nam Dân chủ Cộng hòa.</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-blue-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="shield-check" class="w-8 h-8 mr-4 text-blue-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">1945 - 1954: Thập kỷ Kháng chiến và Xây dựng Chính quyền</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Vừa chống thù trong giặc ngoài, vừa xây dựng nền móng chế độ mới và lãnh đạo cuộc chiến đấu bảo vệ nền độc lập non trẻ.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Đối ngoại:</strong> Thực hiện sách lược <strong>"hòa để tiến"</strong> (ký Hiệp định Sơ bộ 1946) để tranh thủ thời gian chuẩn bị lực lượng.</li>
+                        <li><strong>Lãnh đạo chiến tranh:</strong> Ra <strong>Lời kêu gọi Toàn quốc Kháng chiến</strong> (19/12/1946) khi hòa bình bị phá vỡ.</li>
+                        <li><strong>Chiến thắng lịch sử:</strong> Cùng Đảng đề ra đường lối và trực tiếp chỉ đạo chiến cuộc, dẫn đến thắng lợi <strong>Điện Biên Phủ</strong> (1954), kết thúc 9 năm kháng chiến.</li>
+                    </ul>
+                </div>
+
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-purple-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="building-2" class="w-8 h-8 mr-4 text-purple-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">1954 - 1969: Thập kỷ Xây dựng và Chi viện Miền Nam</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Dành tâm huyết xây dựng chủ nghĩa xã hội ở miền Bắc, làm hậu phương vững chắc cho cuộc đấu tranh thống nhất đất nước ở miền Nam.
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>Nhiệm vụ kép:</strong> Lãnh đạo công cuộc <strong>khôi phục và phát triển kinh tế, văn hóa</strong> ở miền Bắc.</li>
+                        <li><strong>Tư tưởng chỉ đạo:</strong> Đề ra đường lối <strong>"Độc lập Dân tộc và Chủ nghĩa Xã hội"</strong> là nhiệm vụ chung của cả nước.</li>
+                        <li><strong>Di sản:</strong> Hoàn thành <strong>Di chúc lịch sử</strong> (1965-1969), thể hiện niềm tin tuyệt đối vào tương lai thống nhất và sự phát triển của dân tộc.</li>
+                    </ul>
+                </div>
+                
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-l-8 border-teal-600 hover:shadow-2xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="feather" class="w-8 h-8 mr-4 text-teal-600"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Di sản Vĩnh cửu và Tầm vóc Quốc tế</h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                        Tư tưởng Hồ Chí Minh là một hệ thống quan điểm toàn diện, sâu sắc về những vấn đề cơ bản của cách mạng Việt Nam, được UNESCO công nhận:
+                    </p>
+                    <ul class="list-disc list-inside mt-4 ml-6 text-gray-700 dark:text-gray-300 space-y-2">
+                        <li><strong>UNESCO (1987):</strong> Vinh danh Người là </strong><strong>Anh hùng giải phóng dân tộc và nhà văn hóa kiệt xuất của Việt Nam"</strong>.</li>
+                        <li><strong>Giá trị: </strong> Tư tưởng của Người là tài sản tinh thần vô giá của dân tộc, là kim chỉ nam cho mọi hành động của Đảng và Nhà nước Việt Nam.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-4" class="page-content">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--primary-color)] dark:text-gray-100 mb-8 pb-4 border-b border-gray-200 dark:border-gray-700 transition duration-500">4. Dòng chảy Lịch sử: Niên đại Chi tiết các sự kiện trọng đại</h2>
+
+            <div class="timeline-container pl-6 sm:pl-8 md:pl-10">
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-red-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-red-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">19/5/1890:  Sinh nhật của Người</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Nguyễn Sinh Cung ra đời tại xã Kim Liên, huyện Nam Đàn, tỉnh Nghệ An. Giai đoạn niên thiếu đã sớm hình thành tinh thần yêu nước từ truyền thống gia đình Nho học và thực tiễn đất nước.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-blue-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-blue-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">5/6/1911: Ra đi tìm đường cứu nước</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Với tên Văn Ba, Người rời bến cảng Nhà Rồng trên tàu buôn Pháp. Mục đích là <strong>"xem xét, tìm hiểu"</strong> bản chất của chủ nghĩa tư bản và thực dân. </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-yellow-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-yellow-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">18/6/1919: Bản Yêu sách 8 điểm</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Dưới tên <strong>Nguyễn Ái Quốc</strong>, Người gửi "Bản yêu sách của nhân dân An Nam" tới Hội nghị Versailles. Tuy yêu sách không được đáp ứng, nhưng sự kiện này đã đưa tên tuổi Người và vấn đề Việt Nam ra thế giới.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-green-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-green-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">12/1920: Chọn con đường Cộng sản</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Tham gia Đại hội Tours, bỏ phiếu tán thành gia nhập Quốc tế Cộng sản, trở thành một trong những người sáng lập <strong>Đảng Cộng sản Pháp</strong>. Sự kiện đánh dấu việc Người chính thức tìm thấy con đường <strong>giải phóng dân tộc</strong>. </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-purple-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-purple-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">3/2/1930: Thành lập Đảng Cộng sản Việt Nam</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Chủ trì Hội nghị hợp nhất các tổ chức cộng sản tại Cửu Long (Hương Cảng), thành lập Đảng. Văn kiện "Chánh cương vắn tắt, Sách lược vắn tắt" do Người soạn thảo đã đặt nền móng cho đường lối cách mạng đúng đắn.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-teal-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-teal-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">28/1/1941: Về nước</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Sau 30 năm bôn ba, Người trở về Tổ quốc tại Pác Bó (Cao Bằng). Người chủ trì Hội nghị Trung ương 8 (tháng 5/1941), quyết định chuyển hướng chiến lược, đặt nhiệm vụ <strong>giải phóng dân tộc</strong> lên hàng đầu, và thành lập <strong>Mặt trận Việt Minh</strong>.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-red-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-red-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">2/9/1945: Tuyên ngôn Độc lập</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Lãnh đạo thành công Cách mạng tháng Tám. Tại Quảng trường Ba Đình, Người đọc <strong>Tuyên ngôn Độc lập</strong>, tuyên bố khai sinh nước Việt Nam Dân chủ Cộng hòa. </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-blue-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-blue-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">19/12/1946: Lời kêu gọi Toàn quốc Kháng chiến</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Trước việc thực dân Pháp quay trở lại xâm lược, Người ra Lời kêu gọi Toàn quốc Kháng chiến, mở đầu cho cuộc chiến tranh vệ quốc trường kỳ 9 năm.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-yellow-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-yellow-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">7/5/1954: Chiến thắng Điện Biên Phủ</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Dưới sự lãnh đạo sáng suốt của Đảng và Chủ tịch Hồ Chí Minh, quân và dân ta giành chiến thắng lịch sử, buộc Pháp ký Hiệp định Genève, <strong>giải phóng hoàn toàn miền Bắc</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-item-dot bg-gray-600"></div>
+                    <div class="p-4 ml-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border-l-4 border-gray-600 card-style">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">2/9/1969: Người ra đi mãi mãi</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">Chủ tịch Hồ Chí Minh qua đời. Di chúc của Người trở thành <strong>tài sản vô giá</strong>, là ánh sáng dẫn đường cho toàn Đảng, toàn dân hoàn thành sự nghiệp thống nhất đất nước.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-5" class="page-content">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--primary-color)] dark:text-gray-100 mb-8 pb-4 border-b border-gray-200 dark:border-gray-700 transition duration-500">5. Di sản Vĩ đại: Tư tưởng, Đạo đức và Phong cách Hồ Chí Minh</h2>
+
+            <div class="grid lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-1 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-t-8 border-blue-500 card-style">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50 flex items-center mb-4">
+                        <i data-lucide="brain-circuit" class="w-6 h-6 mr-3 text-blue-500"></i> Ba trụ cột Tư tưởng
+                    </h3>
+                    <ul class="list-inside space-y-4 text-gray-600 dark:text-gray-400">
+                        <li>
+                            <strong class="text-lg block mb-1">Độc lập Dân tộc và Chủ nghĩa Xã hội:</strong>
+                            <p class="text-sm">Là sợi chỉ đỏ xuyên suốt, đảm bảo cho dân tộc Việt Nam không chỉ thoát khỏi ách nô lệ mà còn tiến tới một xã hội <strong>công bằng, dân chủ, văn minh</strong>.</p>
+                        </li>
+                        <li>
+                            <strong class="text-lg block mb-1">Đại đoàn kết Dân tộc:</strong>
+                            <p class="text-sm">Lấy lợi ích tối cao của dân tộc làm mục tiêu. <strong>Đoàn kết là sức mạnh</strong>, là chiến lược hàng đầu, là nhân tố quyết định mọi thắng lợi của cách mạng Việt Nam.</p>
+                        </li>
+                        <li>
+                            <strong class="text-lg block mb-1">Xây dựng Đảng:</strong>
+                            <p class="text-sm">Đảng phải trong sạch, vững mạnh, là người lãnh đạo nhưng đồng thời phải là <strong>"người đầy tớ thật trung thành của nhân dân"</strong>.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-2 space-y-10">
+                    <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-t-8 border-red-500 card-style">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50 flex items-center mb-4">
+                            <i data-lucide="hand-heart" class="w-6 h-6 mr-3 text-red-500"></i> Đạo đức: Cần, Kiệm, Liêm, Chính
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            Cốt lõi của đạo đức Hồ Chí Minh là <strong>"Chí công vô tư"</strong>. Đó là sự kết hợp nhuần nhuyễn giữa phẩm chất truyền thống Á Đông (Cần, Kiệm, Liêm, Chính) và tư tưởng cách mạng tiên tiến. Người luôn nhấn mạnh:
+                        </p>
+                        <ul class="mt-4 grid md:grid-cols-2 gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <li class="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <strong>Cần:</strong> Siêng năng, chăm chỉ làm việc, làm việc có năng suất, chất lượng, hiệu quả.
+                            </li>
+                            <li class="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <strong>Kiệm:</strong> Tiết kiệm sức lao động, thời gian, của cải, không lãng phí.
+                            </li>
+                            <li class="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <strong>Liêm:</strong> Trong sạch, không tham lam tiền của, địa vị, danh vọng.
+                            </li>
+                            <li class="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <strong>Chính:</strong> Thẳng thắn, đứng đắn, bảo vệ lẽ phải, đấu tranh chống cái sai.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-t-8 border-green-500 card-style">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50 flex items-center mb-4">
+                            <i data-lucide="sparkles" class="w-6 h-6 mr-3 text-green-500"></i> Phong cách: Giản dị, Khiêm tốn
+                        </h3>
+                        <ul class="list-inside space-y-3 text-gray-600 dark:text-gray-400">
+                            <li><strong>Phong cách làm việc:</strong> Dân chủ, tập thể, khoa học, luôn gắn liền lý luận với thực tiễn.</li>
+                            <li><strong>Lối sống:</strong> Tuyệt đối giản dị, trong sạch. Từ chiếc áo vá, đôi dép lốp đến ngôi nhà sàn đơn sơ, tất cả đều thể hiện sự hòa mình vào đời sống nhân dân.</li>
+                            <li><strong>Ngôn ngữ:</strong> Trong sáng, dễ hiểu, giàu hình ảnh, có tính quần chúng cao. Luôn dùng từ ngữ mộc mạc để truyền tải những tư tưởng lớn lao.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[var(--primary-color)] dark:bg-[#0f172a] text-white py-6 mt-10 transition duration-500">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>&copy; 2025 Tư liệu về Chủ tịch Hồ Chí Minh. Thiết kế và Tối ưu bởi Gemini.</p>
+        </div>
+    </footer>
+
+    <script src="./lucide.js"></script> 
+    
+    <script>
+        // 1. Khởi tạo Icons Lucide
+        lucide.createIcons();
+
+        // 2. Logic Dark Mode
+        const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+
+        const loadTheme = () => {
+            const isDark = localStorage.getItem('theme') === 'dark' || 
+                           (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            
+            if (isDark) {
+                htmlElement.classList.add('dark');
+                themeIcon.setAttribute('data-lucide', 'moon');
+            } else {
+                htmlElement.classList.remove('dark');
+                themeIcon.setAttribute('data-lucide', 'sun');
+            }
+            // PHẢI GỌI LẠI lucide.createIcons() sau khi thay đổi data-lucide
+            lucide.createIcons();
+        };
+
+        const toggleTheme = () => {
+            const isDark = htmlElement.classList.contains('dark');
+            if (isDark) {
+                // localStorage.setItem('theme', 'light');
+                // Sửa: Luôn đặt theme mới, nếu không bị chặn, nó sẽ lưu lại
+                try {
+                    localStorage.setItem('theme', 'light');
+                } catch (e) {
+                    console.warn("Could not set theme: Storage access blocked.");
+                }
+            } else {
+                try {
+                    localStorage.setItem('theme', 'dark');
+                } catch (e) {
+                    console.warn("Could not set theme: Storage access blocked.");
+                }
+            }
+            loadTheme();
+        };
+
+        themeToggle.addEventListener('click', toggleTheme);
+        window.addEventListener('load', loadTheme);
+
+
+        // 3. Logic Navigation (Page Switching)
+        const pageContents = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link'); // Chỉ cần query các nav-link, page-nav-btn cũng là link thường
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        
+        // Function to handle page display and active link styling
+        const updatePage = (hash) => {
+            // Default to page-1 if hash is empty or invalid
+            const targetId = hash ? hash.replace('#', '') : 'page-1';
+            
+            // Ẩn tất cả các trang, chỉ hiện trang được chọn
+            pageContents.forEach(page => {
+                if (page.id === targetId) {
+                    page.classList.add('active'); // active hiển thị: opacity: 1, visibility: visible, position: relative
+                    window.scrollTo(0, 0); // Scroll to top on page switch
+                } else {
+                    page.classList.remove('active'); // ẩn: opacity: 0, visibility: hidden, position: absolute
+                }
+            });
+
+            // Update active class for nav links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === targetId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Hide mobile menu after selection
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('block');
+            }
+        };
+
+        // Initial load and hash change listener
+        window.addEventListener('load', () => {
+            if (!window.location.hash) {
+                window.location.hash = '#page-1'; // Đảm bảo hash được set lần đầu
+            }
+            updatePage(window.location.hash);
+        });
+        
+        // Lắng nghe thay đổi hash (cả khi người dùng bấm link và bấm nút back/forward)
+        window.addEventListener('hashchange', () => updatePage(window.location.hash));
+
+        // 4. Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('block');
+            
+            // Fix: Đảm bảo icon menu/x chuyển đổi (nếu có icon cho 'x')
+            const menuIcon = mobileMenuBtn.querySelector('i');
+            if(mobileMenu.classList.contains('block')) {
+                 menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                 menuIcon.setAttribute('data-lucide', 'menu');
+            }
+             lucide.createIcons();
+        });
+
+    </script>
 </body>
 </html>
